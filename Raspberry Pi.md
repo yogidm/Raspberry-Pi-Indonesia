@@ -1,27 +1,3 @@
-
-
-
-```
-sudo apt install gdebi-core
-
-```
-## Daftar isi
-
-1. Apa itu Raspberry Pi?
-    + Raspberry Pi 3b+
-    + Jenis dan spesifikasinya
-    + Konfigurasi pin dan modul perangkat keras
-2. Sistem Operasi pendukung Raspbery Pi
-3. Apa saja yang dapat kita lakukan dengan Raspberry Pi?
-4. Akses GPIO pada Raspberry Pi
-4. Menggunakan GUI
-5. Yuk membuat game kecil-kecilan
-6. Komunikasi dengan Arduino
-7. Welcome to Internet of Things
-8. Kamera pada Raspberry Pi
-9. Apa selanjutnya?
-
-
 # 1. Apa itu Raspberry Pi?
 
 **`Raspberry Pi`** merupakan salah satu jenis komputer mini (mini-PC) yang sering digunakan untuk pembelajaran pemograman sistem tertanam di sekolah ataupun universitas. Raspberry Pi juga sering digunakan pada kasus jaringan, [IoT (Internet of Things)](https://id.wikipedia.org/wiki/Internet_untuk_Segala), dan [Robotika](https://en.wikipedia.org/wiki/Robot) dengan keunggulannya yang berbentuk mini. Dengan fitur yang lengkap, memungkinkan mini-PC ini mudah terhubung dengan beberapa perangkat lainnya seperti [Arduino](http://arduno.cc), Android, maupun web server. Selain itu, Raspberry Pi ini juga sudah mendukung [ROS (Robot Operating System)](http://wiki.ros.org/) sebagai perpustakaan dan alat untuk kontrol robot lanjutan. Untuk referensi tentang Raspberry lebih lanjut, klik di [Wikipedia Reference](https://en.wikipedia.org/wiki/Raspberry_Pi#Model_B).
