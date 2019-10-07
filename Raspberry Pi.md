@@ -34,6 +34,30 @@ atau apabila kita komparasi dengan beberapa jenis Raspberry Pi lainnya:
 
 <img src="GambarPi/Specifications.png">[Sumber](https://image.ibb.co/bweuCz/Specifications.png)
 
+Untuk pembaruan tipe Raspberry Pi 4 Model B, memiliki spesifikasi seperti berikut ini:
+
++ Broadcom BCM2711, Quad core Cortex-A72 (ARM v8) 64-bit SoC @ 1.5GHz
++ 1GB, 2GB or 4GB LPDDR4-3200 SDRAM (depending on model)
++ 2.4 GHz and 5.0 GHz IEEE 802.11ac wireless, Bluetooth 5.0, BLE
++ Gigabit Ethernet
++ 2 USB 3.0 ports; 2 USB 2.0 ports.
++ Raspberry Pi standard 40 pin GPIO header (fully backwards compatible with previous boards)
++ 2 × micro-HDMI ports (up to 4kp60 supported)
++ 2-lane MIPI DSI display port
++ 2-lane MIPI CSI camera port
++ 4-pole stereo audio and composite video port
++ H.265 (4kp60 decode), H264 (1080p60 decode, 1080p30 encode)
++ OpenGL ES 3.0 graphics
++ Micro-SD card slot for loading operating system and data storage
++ 5V DC via USB-C connector (minimum 3A*)
++ 5V DC via GPIO header (minimum 3A*)
++ Power over Ethernet (PoE) enabled (requires separate PoE HAT)
++ Operating temperature: 0 – 50 degrees C ambient
+
++ * A good quality 2.5A power supply can be used if downstream USB peripherals consume less than 500mA in total.
+
+<img src="GambarPi/Raspi4-B.png">[Sumber](https://www.raspberrypi.org/products/raspberry-pi-4-model-b/specifications/)
+
 lalu, berapa harga kisaran sebuah Raspberry Pi yang dijual dipasaran? (estimasi harga dari website resmi)
 
 - Raspberry Pi 1, Model A & Model B (2012, discontinued)
@@ -45,6 +69,7 @@ lalu, berapa harga kisaran sebuah Raspberry Pi yang dijual dipasaran? (estimasi 
 - [Raspberry Pi Zero W](https://www.raspberrypi.org/products/raspberry-pi-zero-w/) (February, 2017)
 - [Raspberry Pi 3, Model B+](https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/) (March, 2018)
 - [Raspberry Pi 3, Model A+](https://www.raspberrypi.org/products/raspberry-pi-3-model-a-plus/) (November, 2018)
+- [Raspberry Pi 4, Model B](https://www.raspberrypi.org/products/raspberry-pi-4-model-b) (June, 2019)
 
 
 
@@ -360,7 +385,56 @@ Sebagai patokan, kurang lebih hasil percobaan 2 ini seperti pada video berikut.
 
 # 5. Menggunakan GUI untuk antar-muka
 
-Grapchical User Interface (GUI) merupakan suatu tampilan pada layar komputer yang dapat terhubung dengan perangkat keras diluar komputer tersebut. Dengan asumsi, Raspberry Pi merupakan komputer dengan bentuk mini. 
+Grapchical User Interface (GUI) merupakan suatu tampilan pada layar komputer yang dapat terhubung dengan perangkat keras di luar komputer tersebut (dengan asumsi, Raspberry Pi merupakan komputer dengan bentuk mini). Dari interaksi yang tercipta antara pengguna dengan komputer, kita bisa membuat sebuah kegiatan yang interaktif. Semisal membuat sebuah permainan, data logger, ataupun pemantau sistem. Dari GUI ini, pengguna dapat dengan mudah memantau, merekam, dan mengendalikan sebuah sistem bahkan dari jarak jauh. Nah, pada bab ini,  kita akan melakukan beberapa kegiatan diataranya, mengenal pembuatan GUI berbasis Python dalam bentuk game (permainan) dan data logger beserta ploting datanya. 
+
+## Pygame
+
+Pygame merupakan sebuah pustaka pada bahasa pemograman Python yang digunakan khusus untuk pembuatan game. Namun, pada teknisnya, pustaka ini juga bisa diadatasi sebagai pustaka penggunaan GUI. Selain itu, pustaka ini sederhana dan mudah untuk digunakan dan diikuti alur penulisan logikanya untuk pemula. Perpustakaan bahasa pemrograman Python ini bersifat Gratis dan Open Source untuk membuat aplikasi multimedia seperti game yang dibangun di atas perpustakaan [SDL](http://www.libsdl.org/) yang sangat baik. Seperti SDL, pygame sangat portabel dan berjalan di hampir setiap platform dan sistem operasi.
+
+Situs web dari pygame adalah [pygame.org](https://www.pygame.org/wiki/GettingStarted) yang menampung semua [proyek](https://www.pygame.org/tags/all) permainan, seni, musik, suara, video dan multimedia menggunakan bahasa Python. Pada situs ini, Anda juga bisa menambahkan proyek baru atau belajar tentang pygame dengan membaca dokumen-dokumennya. Selain itu, pygame memiliki komunitas atau kelompok sukarelawan kecil dari manusia-manusia kreatif yang ♥ membuat sesuatu dan membantu menyelesaikan permasalahan yang Anda alami atau bahkan memberikan informasi baru atau ide-ide kreatif yang Anda ciptakan sendiri. 
+
+Oke, mari kita menggali lebih dalam mengenai pygame. Dimulai dari instalasinya.
+
+## Pre-instalasi pygame
+
+Pada instalasi ini, menggunakan `Python 3.6.8 (default, May  7 2019, 14:58:50)` jadi semisal kalian menggunakan Python 2.7 atau dibawahnya, mohon disesuaikan dulu ya... berikut tutorialnya 
+<b>(Bisa di skip apabila sudah menggunakan Python 3.6.8)</b>
+
+- Buka terminal baru pada linux kalian.
+- Pastikan setting `python3` pada terminal kalian sudah sesuai. 
+- Untuk mengetahuinya, ketikkan kode berikut pada terminal kalian
+<img src="GambarPi/cek-versi-python2.png">
+- Jika versi Python kalian sama dengan gambar diatas, ubah versinya menjadi Python 3.6.8.
+- Ketikkan kode berikut pada terminal:
+
+```
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5 1
+
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2
+```
+
+Lalu tahap akhirnya,setting defaultnya sesuai dengan yang diinginkan yaitu Python 3.6. 
+
+```
+sudo update-alternatives --config python3
+```
+Pilih pilihan setting defaultnya sesuai dengan yang diinginkan yaitu Python 3.6 dan akan menghasilkan keluaran seperti gambar berikut:
+
+<img src="GambarPi/seting-python-hasil.png">
+
+->>> lihat tanda bintang (_*_) pada gambar terminal diatas sebagai penunjuk default `python3` nya.
+
+- Cek versi python terbaru kalian sekali lagi. 
+
+<img src="GambarPi/cek-versi-pyhton.png">
+
+## Instalasi pygame
+
+
+
+
+
+
 
 # 8. IoT
 
