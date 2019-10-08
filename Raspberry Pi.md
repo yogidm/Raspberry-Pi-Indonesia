@@ -225,8 +225,106 @@ Berikut beberapa daftar rujukan proyek yang dapat kalian baca:
 - [Pi Image Capturer](https://github.com/rajeshkumarkhadka/Pi-Image-Capturer) - Captures images, integrated with the Google IOT Cloud Platform ecosystem.
 - [Bitcoin Tracker](https://github.com/jonathanrjpereira/Bitcoin-Bar) - A Physical Dashboard that displays Bitcoin stats in real time. `Supports Raspberry Pi  Supports Raspberry Pi Zero`
 
+# 4. Pengaturan Tampilan Raspberry Pi
 
-# 4. Akses GPIO pada Raspberry Pi
+Pengaturan tampilan pada Raspberry Pi ada beberapa jenis, diantaranya: menggunakan televisi lama (CRT) melalui kabel RCA atau menggunakan TRRS to RCA, HDMI, ataupun mengontrolnya menggunakan VNC viewer melalui saluran WiFi. Untuk lebih lebih detilnya, dapat dilihat pada penjelasan berikut. 
+
+## 4.1 Menggunakan Televisi Lama (CRT)
+
+TV lama atau TV CRT dapat digunakan sebagai tampilan dari Raspberry Pi. Penggunaan ini membutuhkan sambungan kabel RCA yaitu sambungan dengan komposisi kabel video (berwarna kuning), kanal audio kanan (berwarna merah), kanal audio kiri (berwarna putih) melalui sambungan konversi dari port TRRS. Port TRRS merupakan port 3.5 mm yang biasanya digunakan sebagai port untuk audio atau earphone pada smartphone. akan tetapi, pada komposisinya, pin mic pada port TRRS-nya diubah fungsinya sebagai jalur video. Gambar berikut menunjukkan kabel TRRS to RCA.<img src="GambarPi/trrs-rca.jpg"> [sumber foto](https://thepihut.com/products/av-composite-cable-3-5mm-to-3-x-rca-3m)
+
+Sedangkan untuk kalian yang ingin membuatnya sendiri sambunga TRRS to RCA ini, kalian bisa mengikuti tutorial pembuatan sambungannya pada laman [berikut ini](https://www.instructables.com/id/Raspberry-Pi-2-Quick-n-Easy-RCA/)
+
+
+## 4.2 Menggunakan Kabel HDMI atau Konverter VGA
+
+Penggunaan kabel HDMI merupakan sambungan yang paling sederhana dan umum digunakan oleh banyak orang. Sambungan ini lebih mudah digunakan karena kita hanya menghubungkan kabel HDMI to HDMI kepada monitor LCD yang ada. Selain itu, dapat juga digunakan konverter HDMI to VGA untuk menghubungkan kepada monitor dengan port LCD dengan sambungan VGA. Sambungan ini dapat dilihat pada gambar berikut.
+
+<img src="GambarPi/sambungan_hdmi-vga.jpeg"> 
+
+## 4.3 Menggunakan VNC Viewer Melalui WiFi
+
+VNC Viewer merupakan sebuah aplikasi yang memungkinkan pengguna memonitor tampilan atau me-remot sebuah komputer melalui jarak jauh. Aplikasi ini pada umumnya sudah tertanam pada sistem operasi Raspbian yang digunakan pada Raspberry Pi. Oleh karenanya, untuk dapat menggunakan fitur ini, perlu beberapa komponen yang diperlukan selain Raspberry Pi itu sendiri yaitu sebuah jaringan yang menghubungkan antara kedua perangkat tersebut, client dan server atau yang memonitor dan yang dimonitor. Berikut cara menggunakannya:
+
+- Pastikan Raspberry Pi sudah terhubung kepada jaringan. Baik jaringan WiFi ataupun LAN.
+- Jaringan WiFi yang digunakan dapat juga menggunakan hotspot dari smartphone (thetering).
+- Pastikan perangkat untuk memonitor dan Raspberry Pi sudah terhubung dengan jaringan tersebut (dalam satu jaringan).
+
+
+Untuk pengaturan pertama kali:
+- Masuk pada menu `Raspberry Pi Configuration` pada Start Menu >> Preference >> Raspberry Pi Configuration
+
+<img src="GambarPi/raspberry-config.png">
+
+- Masuk pada tab `Interface` atau `Antarmuka`.
+- Aktifkan (`Enable`) pilihan `SSH` dan `VNC` seperti gambar berikut dan klik `OK`. 
+
+<img src="GambarPi/setting-ssh-vnc.png">
+
+- Jika muncul pilihan `Reboot`, dapat diabaikan saja. 
+- Jika pengaturan sudah benar, maka pada bagian pojok kanan atas (dekat dengan penunjuk waktu) akan muncul logo `VNC` seperti gambar berikut ini.
+
+<img src="GambarPi/vnc-belum-aktif.jpeg">
+
+- Klik logo tersebut, maka akan muncul jendela VNC Connect seperti gambar berikut ini.
+
+<img src="GambarPi/vnc-connect.png">
+
+- Pada jendela tersebut, ditampilkan alamat IP yang dapat menghubungkan perangkat Raspberry Pi kita kepada perangkat yang digunakan untuk memonitornya. Tentunya perangkat yang digunakan untuk memonitor harus sudah berisikan aplikasi `VNC Viewer` yang dapat diunduh pada tautan [berikut ini](https://www.realvnc.com/en/connect/download/viewer/). Silakhan pilih sesuai dengan operating system pada perangkat Anda. Selain itu, dapat juga dimonitor menggunakan perangkat smartphone Android. Silahkan install VNC Viewer pada Play Store. 
+
+- Setelah Anda melakukan instalasi aplikasi VNC Viewer pada laptop/pc, buka aplikasi tersebut. Maka Anda akan diberikan sebuah jendela dengan masukan alamat IP perangkat yang akan diremot. Silahkan masukkan alamat IP perangkat Raspberry Pi seperti gambar berikut ini. 
+
+<img src="GambarPi/sambungan-vnc-connect.png">
+
+- Setelah itu, anda akan diminta memasukkan username dan password untuk hak akses dari perangkat Raspberry Pi yang akan diremot. Pada umumnya menggunakan username:`pi` dan password:`raspberry` seperti gambar berikut ini. 
+
+<img src="GambarPi/password-vnc.png">
+
+- Setelah berhasil mengakses perangkat kita, kurang lebih akan muncul jendela dari perangkat yang kita remot pada layar laptop kita seperti gambar berikut ini.
+
+<img src="GambarPi/tampilan-vnc-remot-laptop.png">
+
+- Jika berhasil, maka logo VNC pada layar Raspberry Pi kita (pada pojok kanan atas) akan berubah menjadi warna hitam, seperti gambar berikut, dan kita bisa langsung menggunakan Raspberry Pi kita melalui laptop kita sesuai apa yang kita mau. 
+
+<img src="GambarPi/logo-VNC.png">
+
+
+- Selain itu, apabila kita menggunakan perangkat smartphone Android kita sebagai perangkat monitoring Raspberry, pada jendela aplikasi `VNC Viewer` yang sudah diinstall dari Play Store, akan menampilkan jendela beranda seperti berikut ini. 
+
+<img src="GambarPi/Tampilan-awal-android.jpeg">
+
+- Tambah sambungan dengan menekan tombol hijau + pada jendela VNC Viewer
+
+<img src="GambarPi/tambah-sambungan.jpeg">
+
+- Masukkan alamat IP dari perangkat yang akan diremot menggunakan Android dan beri nama sambungan yang dibuat. Klik `Continue` untuk melanjutkan prosesnya.
+
+<img src="GambarPi/masukkan-ip.jpeg">
+
+- Masukkan username dan password yang sama dengan pembahasan sebelumnya, (username:`pi` password:`raspberry')
+
+<img src="GambarPi/passsword-android.jpeg">
+
+- Klik `continue` sebagai konfirmasi sambungan yang dibuat.
+
+<img src="GambarPi/klik-continue.jpeg">
+
+- Setelah sambungan berhasil dibuat, maka akan muncul jendela pada Android kita yang serupa dengan tampilan pada Raspberry Pi yang diremot. Seperti pada gambar berikut ini.
+
+<img src="GambarPi/remot-android.jpeg">
+
+- Pada sambungan VNC Viewer yang dibuat, dapat diremot secara bersamaan, baik dari laptop maupun dari Android seperti pada gambar berikut ini. 
+
+<img src="GambarPi/vnc-connect-banyakan.jpeg">
+
+<b> Silahkan pilih cara monitoring yang nyaman menurut Anda masing-masing. Ketiga cara yang sudah dijelaskan di atas, dapat digunakan untuk mengoperasikan banyak hal ataupun fitur yang ada pada Raspberry Pi kita. </b>
+
+
+
+
+
+
+# 5. Akses GPIO pada Raspberry Pi
 
 `GPIO` merupakan kumpulan pin yang memiliki fungsi untuk berinterksi dengan komponen diluar Raspberry Pi kita. Kumpulan pin-pin tersebut disebut dengan istilah `Broadcom` atau (BCM). Sejumlah 40 pin yang disediakan oleh Raspberry Pi, hanya saja tidak semua pin dapat dijadikan sebagai `GPIO`. Jika kita klasifikasikan kedalam 3 buah kelas berdasarkan penggunaan GPIOnya, maka akan menjadi, Bukan GPIO (Merah), Bisa Jadi GPIO (Cyan), dan GPIO (Hijau) sebagaimana pada gambar dibawah ini.
 
@@ -383,7 +481,7 @@ Sebagai patokan, kurang lebih hasil percobaan 2 ini seperti pada video berikut.
 [![Hasil Percobaan 2 - Input dan Output](https://img.youtube.com/vi/9z8uqpZ-F-4/0.jpg)](https://www.youtube.com/watch?v=9z8uqpZ-F-4)
 
 
-# 5. Menggunakan GUI untuk antar-muka
+# 6. Menggunakan GUI untuk antar-muka
 
 Grapchical User Interface (GUI) merupakan suatu tampilan pada layar komputer yang dapat terhubung dengan perangkat keras di luar komputer tersebut (dengan asumsi, Raspberry Pi merupakan komputer dengan bentuk mini). Dari interaksi yang tercipta antara pengguna dengan komputer, kita bisa membuat sebuah kegiatan yang interaktif. Semisal membuat sebuah permainan, data logger, ataupun pemantau sistem. Dari GUI ini, pengguna dapat dengan mudah memantau, merekam, dan mengendalikan sebuah sistem bahkan dari jarak jauh. Nah, pada bab ini,  kita akan melakukan beberapa kegiatan diataranya, mengenal pembuatan GUI berbasis Python dalam bentuk game (permainan) dan data logger beserta ploting datanya. 
 
@@ -436,7 +534,7 @@ Pilih pilihan setting defaultnya sesuai dengan yang diinginkan yaitu Python 3.6 
 
 
 
-# 8. IoT
+# 9. IoT
 
 ## Mengirim data pada cloud
 
