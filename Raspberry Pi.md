@@ -521,7 +521,7 @@ Untuk menginstall Arduino pada Raspberry Pi, dapat mengunduh file instalasi pada
 
 Komunikasi antara Raspberry Pi dengan Arduino dapat menggunakan komunikasi serial atau juga disebut dengan USART (Universal Synchronous/Asynchronous Receiver/Transmitter). Komunikasi ini membutuhkan sebuah sambungan yang pada teknisnya dapat menggunakan sambungan kabel USB Arduino dengan Raspberry Pi. Untuk dapat menggunakannya, ikuti langkah-langkah berikut ini.
 
-- Buka sebuah dokumen baru Arduino menggunakan Arduino IDE. 
+- Buka sebuah dokumen baru Arduino menggunakan Arduino IDE dan beri nama `serial-arduino.ino`. 
 - Masukkan kode berikut ini pada Arduino IDE
 
 ```c
@@ -543,9 +543,11 @@ void loop() {
   }
 }
 ```
+> Unduh dokumen [serial-arduino.ino](https://raw.githubusercontent.com/yogidm/Raspberry-Pi-Indonesia/master/Document/serial-arduino/serial-arduino.ino)
+
 - Unggah kodenya pada mikrokontroller Arduino dengan menekan tombol `Ctrl + U` pada keyboaord, atau menekan tombol `Upload` pada IDE Arduino.
 - Setelah kode sukses diunggah kepada Arduino, buat sebuah dokumen Python baru. 
-- Tuliskan kode Python berikut menggunakan `IDLE (Using Python 2.7)`. Kode berikut khusus untuk Python 2.7 dan tidak bisa digunakan pada Python 3.
+- Tuliskan kode Python berikut menggunakan `IDLE (Using Python 2.7)` dan simpan dengan nama `serial-py-arduino.py`. Kode berikut khusus untuk Python 2.7 dan tidak bisa digunakan pada Python 3.
 
 ```python
 #!/usr/bin/env python2
@@ -561,6 +563,7 @@ while(1):
     time.sleep(.01)
     i=i+1
 ```
+> Unduh dokumen [serial-py-arduino.py](https://raw.githubusercontent.com/yogidm/Raspberry-Pi-Indonesia/master/Document/serial-py-arduino.py)
 
 - Pada bagian kode `/dev/ttyACM0` dapat diubah dengan alamat port USB yang dipakai. Dapat dicari pada bagian bawah kanan IDE Arduino. 
 
@@ -603,6 +606,8 @@ void loop()
 }
 ```
 
+> Unduh dokumen [serial-arduino-ke-rpi.ino](https://raw.githubusercontent.com/yogidm/Raspberry-Pi-Indonesia/master/Document/serial-arduino-ke-rpi/serial-arduino-ke-rpi.ino)
+
 - Upload pada Arduino.
 - Buat sebuah dokumen Python baru dan tuliskan kode dibawah ini lalu simpan dengan nama `serial-arduino-rpi.py`.
 
@@ -624,6 +629,8 @@ while count<10:
     print(rawdata)
 f.close()
 ```
+> Unduh dokumen [serial-arduino-rpi.py](https://raw.githubusercontent.com/yogidm/Raspberry-Pi-Indonesia/master/Document/serial-arduino-rpi.py)
+
 - Jalakan kode Python diatas.
 - Kurang lebih program Python akan menampilkan hasil pembacaan data ADC dari Arduino melalui komunikasi serial sebanyak 9 kali. 
 
@@ -697,6 +704,8 @@ void loop() {
 }
 ```
 
+> Unduh dokumen [tkinter-arduino-led.ino](https://raw.githubusercontent.com/yogidm/Raspberry-Pi-Indonesia/master/Document/tkinter-arduino-led/tkinter-arduino-led.ino)
+
 - Unggah kode tersebut kepada mikrokontrollernya.
 - Buat sebuah dokumen Python baru dan tuliskan kode di bawah ini lalu simpan dan diberi nama `tkinter-arduino.py`lalu jalankan program. 
 
@@ -760,6 +769,7 @@ btn6.grid(row=2,column=2)
 lampuGUI.mainloop()
 
 ```
+> Unduh dokumen [tkinter-arduino.py](https://raw.githubusercontent.com/yogidm/Raspberry-Pi-Indonesia/master/Document/tkinter-arduino.py)
 
 - Jika sukses, maka akan memunculkan tampilan GUI seerti berikut ini
 
