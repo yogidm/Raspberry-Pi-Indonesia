@@ -317,11 +317,10 @@ Untuk pengaturan pertama kali:
 
 <img src="GambarPi/vnc-connect-banyakan.jpeg">
 
-<b> Silahkan pilih cara monitoring yang nyaman menurut Anda masing-masing. Ketiga cara yang sudah dijelaskan di atas, dapat digunakan untuk mengoperasikan banyak hal ataupun fitur yang ada pada Raspberry Pi kita. </b>
+Silahkan pilih cara monitoring yang nyaman menurut Anda masing-masing. Ketiga cara yang sudah dijelaskan di atas, dapat digunakan untuk mengoperasikan banyak hal ataupun fitur yang ada pada Raspberry Pi kita.
 
 
-
-
+Untuk mengetahui alamat IP dari Raspberry Pi kita pada sebuah jaringan, dapat digunakan aplikasi `nmap` pada perangkat laptop kita. Untuk pengguna linux, dapat menginstall nmap dengan `sudo apt-get install nmap`. Ketika sudah terinstal  dengan baik, dapat memasukkan perintah berikut ini pada terminal Anda `nmap -Pn -p 22 10.9.10.* --open`. Untuk port 22 merupakan port SSH yang digunakan oleh Raspberry Pi, dan alamat 10.9.10.* merupakan alamat yang disediakan oleh access  point jaringan (dapat Anda ubah sesuai dengan access point anda dengan mengetikkan `ifconfig` pada terminal).
 
 
 # 5. Akses GPIO pada Raspberry Pi
@@ -342,7 +341,7 @@ maka akan muncul layar konfirmasi setelan fitur I2C. Pilih `<yes>` untuk mengakt
 
 <img src="GambarPi/I2C-2.png">
 
-## Dasar rangkaian listrik
+## 5.1 Dasar rangkaian listrik
 
 Hanya mengingat ulang tentang yang sudah dipelajari tentang rangkaian listrik.
 
@@ -376,7 +375,7 @@ Nilai hambatan dapat diperoleh dengan membaca warna gelangnya sesuai dengan juml
 
 
 
-## Percobaan 1 (Blink LED)
+## 5.2 Percobaan 1 (Blink LED)
 
 Mari kita mulai Percobaan 1 tentang Output. Pada kasus ini, kita akan mencoba menyalakan dan mematikan lampu LED. Lalu, apa saja yang kita butuhkan?
 
@@ -426,7 +425,7 @@ Untuk mengetahui hasil dari percobaan ini, dapat dilihat pada video berikut:
 [![Hasil Percobaan 1 - Blink LED](https://img.youtube.com/vi/QvgoyTG5KZk/0.jpg)](https://www.youtube.com/watch?v=QvgoyTG5KZk)
 
 
-## Percobaan 2 (Input dan Output)
+## 5.3 Percobaan 2 (Input dan Output)
 
 Pada percobaan ini, tidak jauh berbeda dengan Percobaan 1, yang hanya menambahkan sebuah tombol tekan (push-button) pada rangkaiannya. Sehingga akan terjadi proses masukan dan keluaran pada programnya. 
 
@@ -480,53 +479,172 @@ Sebagai patokan, kurang lebih hasil percobaan 2 ini seperti pada video berikut.
 
 [![Hasil Percobaan 2 - Input dan Output](https://img.youtube.com/vi/9z8uqpZ-F-4/0.jpg)](https://www.youtube.com/watch?v=9z8uqpZ-F-4)
 
+# 6. Arduino
 
-# 6. Menggunakan GUI untuk antar-muka
+[Arduino](https://www.arduino.cc/) merupakan sebuah minimum system yang didalamnya terdapat sebuah mikrokontroller yang dapat bekerja sesuai dengan program didalamnya. Arduino bersifat open hardware yang berartikan bebas untuk memodifikasi dan menggunakannya bahkan untuk komersial. Pemograman Arduino menggunakan bahasa C yang ditampilkan menggunakan Editor GUI berbasis [Processing](https://processing.org/). Jadi kurang lebih susunan penulisan bahasa pemograman pada Arduino hampir mirip dengan bahasa pemograman pada Processing. Gambar berikut merupakan contoh Arduino Uno.
 
-Grapchical User Interface (GUI) merupakan suatu tampilan pada layar komputer yang dapat terhubung dengan perangkat keras di luar komputer tersebut (dengan asumsi, Raspberry Pi merupakan komputer dengan bentuk mini). Dari interaksi yang tercipta antara pengguna dengan komputer, kita bisa membuat sebuah kegiatan yang interaktif. Semisal membuat sebuah permainan, data logger, ataupun pemantau sistem. Dari GUI ini, pengguna dapat dengan mudah memantau, merekam, dan mengendalikan sebuah sistem bahkan dari jarak jauh. Nah, pada bab ini,  kita akan melakukan beberapa kegiatan diataranya, mengenal pembuatan GUI berbasis Python dalam bentuk game (permainan) dan data logger beserta ploting datanya. 
+<img src="GambarPi/Arduino-uno.png">
 
-## Pygame
+Arduino memiliki beberapa varian, diantaranya:
+- Arduino [Uno](https://store.arduino.cc/usa/arduino-uno-rev3) 
+- Arduino [Nano](https://store.arduino.cc/usa/arduino-nano)
+- Arduino [Mega](https://store.arduino.cc/usa/mega-2560-r3)
+- Arduino [Due](https://store.arduino.cc/usa/due)
 
-Pygame merupakan sebuah pustaka pada bahasa pemograman Python yang digunakan khusus untuk pembuatan game. Namun, pada teknisnya, pustaka ini juga bisa diadatasi sebagai pustaka penggunaan GUI. Selain itu, pustaka ini sederhana dan mudah untuk digunakan dan diikuti alur penulisan logikanya untuk pemula. Perpustakaan bahasa pemrograman Python ini bersifat Gratis dan Open Source untuk membuat aplikasi multimedia seperti game yang dibangun di atas perpustakaan [SDL](http://www.libsdl.org/) yang sangat baik. Seperti SDL, pygame sangat portabel dan berjalan di hampir setiap platform dan sistem operasi.
+Untuk menginstall Arduino pada Raspberry Pi, dapat mengunduh file instalasi pada [tautan berikut](https://www.arduino.cc/en/Main/Software). 
 
-Situs web dari pygame adalah [pygame.org](https://www.pygame.org/wiki/GettingStarted) yang menampung semua [proyek](https://www.pygame.org/tags/all) permainan, seni, musik, suara, video dan multimedia menggunakan bahasa Python. Pada situs ini, Anda juga bisa menambahkan proyek baru atau belajar tentang pygame dengan membaca dokumen-dokumennya. Selain itu, pygame memiliki komunitas atau kelompok sukarelawan kecil dari manusia-manusia kreatif yang ♥ membuat sesuatu dan membantu menyelesaikan permasalahan yang Anda alami atau bahkan memberikan informasi baru atau ide-ide kreatif yang Anda ciptakan sendiri. 
+- Silahkan pilih `Linux ARM 64 bit`. 
 
-Oke, mari kita menggali lebih dalam mengenai pygame. Dimulai dari instalasinya.
+<img src="GambarPi/install-arduino.png">
 
-## Pre-instalasi pygame
+- Setelah proses unduh selsesai, silahkan ektrak isi dari file yang diunduh tersebut. Kurang lebih isinya seperti gambar berikut ini. 
 
-Pada instalasi ini, menggunakan `Python 3.6.8 (default, May  7 2019, 14:58:50)` jadi semisal kalian menggunakan Python 2.7 atau dibawahnya, mohon disesuaikan dulu ya... berikut tutorialnya 
-<b>(Bisa di skip apabila sudah menggunakan Python 3.6.8)</b>
+<img src="GambarPi/isi-ekstrakan.png">
 
-- Buka terminal baru pada linux kalian.
-- Pastikan setting `python3` pada terminal kalian sudah sesuai. 
-- Untuk mengetahuinya, ketikkan kode berikut pada terminal kalian
-<img src="GambarPi/cek-versi-python2.png">
-- Jika versi Python kalian sama dengan gambar diatas, ubah versinya menjadi Python 3.6.8.
-- Ketikkan kode berikut pada terminal:
+- Untuk melakukan instalasi, silahkan buka terminal baru dan ketikkan `cd alamat-folder-ekstrak-file`. 
 
+- Setelah masuk pada folder tersebut, ketikkan perintah  berikut `sudo ./install.sh`
+
+<img src="GambarPi/instalasi-arduino.png">
+
+- Setelah instalasi sukses, silahkan buka Arduino IDE pada menu programing dari start menu Raspbian, seperti gambar berikut. 
+
+<img src="GambarPi/arduino-ide.png">
+
+- Untuk Arduino IDE yang dapat kita gunakan untuk memprogram mikrokontrollernya, kurang lebih  seperti gambar berikut ini. 
+
+<img src="GambarPi/gambar-ide-arduino.png">
+
+
+
+## 6.1 Komunikasi Raspberry Pi ke Arduino (via USART)
+
+Komunikasi antara Raspberry Pi dengan Arduino dapat menggunakan komunikasi serial atau juga disebut dengan USART (Universal Synchronous/Asynchronous Receiver/Transmitter). Komunikasi ini membutuhkan sebuah sambungan yang pada teknisnya dapat menggunakan sambungan kabel USB Arduino dengan Raspberry Pi. Untuk dapat menggunakannya, ikuti langkah-langkah berikut ini.
+
+- Buka sebuah dokumen baru Arduino menggunakan Arduino IDE. 
+- Masukkan kode berikut ini pada Arduino IDE
+
+```c
+void setup() {
+  Serial.begin(115200);
+  Serial.setTimeout(5);
+}
+
+void loop() {
+  int x, y;
+  if (Serial.available()) {
+    while (Serial.available()) {
+      byte incomingByte = Serial.read();
+      //Serial.write(incomingByte);
+      if (incomingByte == 'x') x = Serial.parseInt();
+      if (incomingByte == 'y') y = Serial.parseInt();
+    }
+    Serial.println("\tx : " + String(x) + "\ty : " + String(y));
+  }
+}
 ```
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5 1
+- Unggah kodenya pada mikrokontroller Arduino dengan menekan tombol `Ctrl + U` pada keyboaord, atau menekan tombol `Upload` pada IDE Arduino.
+- Setelah kode sukses diunggah kepada Arduino, buat sebuah dokumen Python baru. 
+- Tuliskan kode Python berikut menggunakan `IDLE (Using Python 2.7)`. Kode berikut khusus untuk Python 2.7 dan tidak bisa digunakan pada Python 3.
 
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2
+```python
+#!/usr/bin/env python2
+import serial,time
+arduino=serial.Serial('/dev/ttyACM0',115200,timeout=0.5)
+i=0
+
+while(1):
+    arduino.write('y')
+    arduino.write(str(i))
+    arduino.write('x')
+    arduino.write(str(500))
+    time.sleep(.01)
+    i=i+1
 ```
 
-Lalu tahap akhirnya,setting defaultnya sesuai dengan yang diinginkan yaitu Python 3.6. 
+- Pada bagian kode `/dev/ttyACM0` dapat diubah dengan alamat port USB yang dipakai. Dapat dicari pada bagian bawah kanan IDE Arduino. 
 
+<img src="GambarPi/alamat-usb.png">
+
+- Jalankan program Python tersebut (tidak ada balikan pada console IDLEnya) dan buka Arduino IDE kalian.  
+- Buka fitur `Serial Monitor` pada menu bar Arduino IDE atau menekan icon `kaca pembesar` pada bagian kanan atas Arduino IDE.
+- Kurang lebih akan menampilkan jendela seperti berikut ini. 
+
+<img src="GambarPi/tampilan-serial-monitor.png">
+
+- Jika data pada `Serial Monitor` belum memperoleh hasil seperti gambar diatas, pastikan baudrate pada serial monitor sudah sama dengan baudrate yang digunakan pada kode python, yaitu `1159200`. 
+
+Pada bagian Serial Monitor Arduino, akan menampilkan data `x`dan `y` yang berisikan angka 500 yang tetap pada bagian `x` dan angka penambahan 1 dimulai dari angka 1 pada bagian `y`selama dokumen Python tetap berjalan. Dari sini, kita bisa menggunakan serah terima data statis dan data dinamis yang dikirimkan dari Python menuju Arduino.
+
+
+## 6.2 Komunikasi Arduino ke Raspberry Pi (Kasus Sensor LDR)
+
+Komunikasi Arduino ke Raspberry Pi hampir mirip dengan komunikasi Raspberry Pi ke Arduino. Akan tetapi, pada kasus ini,  kita akan membuat sebuah data logger dari pembacaan sensor cahaya LDR yang akan disimpan pada sebuah file `txt`. Langkah kerjanya adalah sebagai berikut:
+
+- Buat sebuah dokumen Arduino baru dan tuliskan kode berikut ini lalu simpan dengan nama `serial-arduino-ke-rpi.ino`.
+
+```c
+int data;
+void setup()
+{
+  Serial.begin(115200);
+}
+
+void loop()
+{
+  data = analogRead(A0);
+  Serial.println(String(data));
+  delay(1000);
+  Serial.flush();
+}
 ```
-sudo update-alternatives --config python3
+
+- Upload pada Arduino.
+- Buat sebuah dokumen Python baru dan tuliskan kode dibawah ini lalu simpan dengan nama `serial-arduino-rpi.py`.
+
+```python
+#!/usr/bin/env python2
+import serial, datetime
+
+arduino=serial.Serial('/dev/ttyACM0',115200,timeout=1)
+rawdata=str(arduino.readline())
+count=1
+f=open("data.txt",mode="w")
+
+while count<10:
+    rawdata=str(arduino.readline())
+    f.write("\n data ke %d\r" % count + " " +
+            rawdata + " " +
+            str(datetime.datetime.now()) + '\n')
+    count+=1
+    print(rawdata)
+f.close()
 ```
-Pilih pilihan setting defaultnya sesuai dengan yang diinginkan yaitu Python 3.6 dan akan menghasilkan keluaran seperti gambar berikut:
+- Jalakan kode Python diatas.
+- Kurang lebih program Python akan menampilkan hasil pembacaan data ADC dari Arduino melalui komunikasi serial sebanyak 9 kali. 
 
-<img src="GambarPi/seting-python-hasil.png">
+<img src="GambarPi/pembacaan-arduino-rpi-py.png">
 
-->>> lihat tanda bintang (_*_) pada gambar terminal diatas sebagai penunjuk default `python3` nya.
+- Selain itu, program Python juga akan membuat sebuah file txt baru dengan nama `data.txt` pada direktori yang sama dengan dokumen Python disimpan. 
 
-- Cek versi python terbaru kalian sekali lagi. 
+<img src="GambarPi/hasil-data-loggin-rpi.png">
 
-<img src="GambarPi/cek-versi-pyhton.png">
+- Setelah file `data.txt` dibuka, kurang lebih akan menampilkan file logger seperti berikut, yaitu: urutan pencuplikan data ADC,  nilai pembacaan ADC dari Arduino, dan pewaktu pengambilan data berdasarkan tanggal dan jam Raspberry Pi. 
 
-## Instalasi pygame
+<img src="GambarPi/data-txt-logger-nya.png">
+
+- Silahkan ubah nilai `10` pada baris kode `while count<10:` untuk memperoleh pencuplikan data yang lebih banyak lagi sesuai dengan kebutuhan Anda. 
+
+
+
+
+
+# 6. Menggunakan GUI untuk Antarmuka
+
+Grapchical User Interface (GUI) merupakan suatu tampilan pada layar komputer yang dapat terhubung dengan perangkat keras di luar komputer tersebut (dengan asumsi, Raspberry Pi merupakan komputer dengan bentuk mini). Dari interaksi yang tercipta antara pengguna dengan komputer, kita bisa membuat sebuah kegiatan yang interaktif. Semisal membuat sebuah permainan, data logger, ataupun pemantau sistem. Dari GUI ini, pengguna dapat dengan mudah memantau, merekam, dan mengendalikan sebuah sistem bahkan dari jarak jauh. Nah, pada bab ini,  kita akan melakukan beberapa kegiatan diantaranya, mengenal pembuatan GUI berbasis Python menggunakan TKinter dan data logger beserta ploting datanya. 
+
+## 6.1 Instalasi Tkinter pada Python
+
 
 
 
@@ -657,8 +775,104 @@ while True:
         print ("Bebas")
 ```
 
+# 10. Menggunakan Kamera
+
+Kamera merupakan sebuah sensor CMOS / CCD yang dapat mengubah pantulan cahaya yang diterimanya menjadi sebuah susunan array / matriks. Matriks tersebut berisikan nilai-nilai warna pada tiap kanalnya. Pada umumnya, sebuah kamera dapat mengangkap pantulan cahaya dalam 3 buah kanal. 3 kanal tersebut adalah Merah, Hijau, dan Biru. Tiap kanal tersebut, berisikan nilai 8 bit atau antara nilai 0-255 atau bisa juga disebut dengan sebuah citra keabuan. Oleh karenanya, hasil tangkapan sensor kamera, terdiri dari 3 buah kanal keabuan yang digabung menjadi satu yang disebut dengan citra RGB. 
+
+Sebuah sensor kamera, dapat diakses oleh perangkat komputer melalui sambungan USB ataupun sambungan CSI. Pada Raspberry Pi, tersedia fitur untuk menyambungkan kedua sambungan kamera tersebut. Semisal, kita akan menggunakan sebuah USB Webcam sebagai sensor kamera yang akan dihubungkan ke Raspberry Pi kita, kita hanya butuh menyambungkan kabel USB webcamnya kepada port USB dari Raspberry Pinya. Setelah terhubung, kita dapat langsung mengakses kameranya sesuai dengan kebutuhan kita. 
+
+Sedangkan untuk penggunaan sensor kamera dengan sambungan CSI (Camera Serial Interface), dapat menggunakan langkah berikut ini:
+
+- Matikan Raspberry Pi terlebih dahulu untuk menghindari adanya arus pendek listrik. 
+
+- Pastikan sensor kameranya menggunakan sambungan CSI (kabel flexibel berwarna putih) seperti gambar dibawah ini
+
+<img src="GambarPi/modul-kamera-csi.jpeg">
+
+- Cari port kamera pada Raspberry Pi kalian seperti pada gambar berikut. Letak portnya berada pada samping port HDMI.
+
+<img src="GambarPi/port-csi-raspi.jpeg">
+
+- Buka dengan hati-hati pengunci sambungan CSI pada perangkat Raspberry Pi Anda dengan mengangkatnya secara perlahan hingga berbunyi klik.
+
+- Masukkan kabel flexibel putih pada bagian yang terbuka dari port CSI nya. Untuk hadap kabelnya, permukaan tembaga kabelnya, menghadap pada bagian putih port CSI nya. 
+
+- Setelah kabel dimasukkan dengan sempurna, tekan ke bawah pengunci kabel CSI nya hingga berbunyi klik. Untuk proses penghubungan sambungan CSI, dapat dilihat pada gambar animasi dibawah ini.
+
+<img src="GambarPi/connect-camera.gif">
+
+[sumber gambar](https://projects-static.raspberrypi.org/projects/getting-started-with-picamera/66647ad6c4dc1f0db22f367955a8c108dce2d290/en/images/connect-camera.gif)
+
+- Nyalakan Raspberry Pi
+- Masuk pada menu `Preferences >> Raspberry Pi Configuration` seperti gambar dibawah ini
+<img src="GambarPi/raspberry-config.png">
+
+- Masuk pada tab `interface` dan pastikan pilihan `camera` sudah aktif / enable seperti gambar berikut ini
+<img src="GambarPi/gambar-camera-csi.png">
+
+- Klik `OK` dan reboot Raspberry Pi
+
+Ketika sudah menyala, camera CSI sudah siap digunakan. Untuk dapat mengontrol kamera CSI tersebut, dapat menggunakan perintah `raspistill` dan `raspivid` pada terminal Raspberry Pi Anda. 
+
+- Buka sebuah terminal baru pada Rasbian
+- Ketikkan perintah berikut pada terminal 
+```
+raspistill -o Desktop/image.jpg
+```
+<img src="GambarPi/capture-rasbian-terminal.png">
+
+- Tekan `Enter`.
+
+setelah proses berjalan, akan muncul jendela hasil tangkapan kamera selama 5 detik, lalu melakukan penyimpanan hasil tangkapan kamera pada desktop Rasbian. 
 
 
+
+# 11. Game Menggunakan PyGame
+
+Grapchical User Interface (GUI) merupakan suatu tampilan pada layar komputer yang dapat terhubung dengan perangkat keras di luar komputer tersebut (dengan asumsi, Raspberry Pi merupakan komputer dengan bentuk mini). Dari interaksi yang tercipta antara pengguna dengan komputer, kita bisa membuat sebuah kegiatan yang interaktif. Semisal membuat sebuah permainan, data logger, ataupun pemantau sistem. Dari GUI ini, pengguna dapat dengan mudah memantau, merekam, dan mengendalikan sebuah sistem bahkan dari jarak jauh. Nah, pada bab ini,  kita akan melakukan beberapa kegiatan diataranya, mengenal pembuatan GUI berbasis Python dalam bentuk game (permainan) dan data logger beserta ploting datanya. 
+
+## Pygame
+
+Pygame merupakan sebuah pustaka pada bahasa pemograman Python yang digunakan khusus untuk pembuatan game. Namun, pada teknisnya, pustaka ini juga bisa diadatasi sebagai pustaka penggunaan GUI. Selain itu, pustaka ini sederhana dan mudah untuk digunakan dan diikuti alur penulisan logikanya untuk pemula. Perpustakaan bahasa pemrograman Python ini bersifat Gratis dan Open Source untuk membuat aplikasi multimedia seperti game yang dibangun di atas perpustakaan [SDL](http://www.libsdl.org/) yang sangat baik. Seperti SDL, pygame sangat portabel dan berjalan di hampir setiap platform dan sistem operasi.
+
+Situs web dari pygame adalah [pygame.org](https://www.pygame.org/wiki/GettingStarted) yang menampung semua [proyek](https://www.pygame.org/tags/all) permainan, seni, musik, suara, video dan multimedia menggunakan bahasa Python. Pada situs ini, Anda juga bisa menambahkan proyek baru atau belajar tentang pygame dengan membaca dokumen-dokumennya. Selain itu, pygame memiliki komunitas atau kelompok sukarelawan kecil dari manusia-manusia kreatif yang ♥ membuat sesuatu dan membantu menyelesaikan permasalahan yang Anda alami atau bahkan memberikan informasi baru atau ide-ide kreatif yang Anda ciptakan sendiri. 
+
+Oke, mari kita menggali lebih dalam mengenai pygame. Dimulai dari instalasinya.
+
+## Pre-instalasi pygame
+
+Pada instalasi ini, menggunakan `Python 3.6.8 (default, May  7 2019, 14:58:50)` jadi semisal kalian menggunakan Python 2.7 atau dibawahnya, mohon disesuaikan dulu ya... berikut tutorialnya 
+<b>(Bisa di skip apabila sudah menggunakan Python 3.6.8)</b>
+
+- Buka terminal baru pada linux kalian.
+- Pastikan setting `python3` pada terminal kalian sudah sesuai. 
+- Untuk mengetahuinya, ketikkan kode berikut pada terminal kalian
+<img src="GambarPi/cek-versi-python2.png">
+- Jika versi Python kalian sama dengan gambar diatas, ubah versinya menjadi Python 3.6.8.
+- Ketikkan kode berikut pada terminal:
+
+```
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.5 1
+
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 2
+```
+
+Lalu tahap akhirnya,setting defaultnya sesuai dengan yang diinginkan yaitu Python 3.6. 
+
+```
+sudo update-alternatives --config python3
+```
+Pilih pilihan setting defaultnya sesuai dengan yang diinginkan yaitu Python 3.6 dan akan menghasilkan keluaran seperti gambar berikut:
+
+<img src="GambarPi/seting-python-hasil.png">
+
+->>> lihat tanda bintang (_*_) pada gambar terminal diatas sebagai penunjuk default `python3` nya.
+
+- Cek versi python terbaru kalian sekali lagi. 
+
+<img src="GambarPi/cek-versi-pyhton.png">
+
+## Instalasi pygame
 
 
 
