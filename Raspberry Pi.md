@@ -958,13 +958,13 @@ def getArduino():
     if a[0] is 'a':
         data = arduino.readline().split(' : ')
 
-        myData[0] = data[0] #salinitas
-        myData[1] = data[1] #ph air
-        myData[2] = data[2] #level_air
-        myData[3] = data[3] #status bersih
-        myData[4] = data[4] #status kotor
-        myData[5] = data[5] #status heater
-        myData[6] = data[6] #temperature
+        myData[0] = data[0] 
+        myData[1] = data[1] 
+        myData[2] = data[2] 
+        myData[3] = data[3] 
+        myData[4] = data[4] 
+        myData[5] = data[5] 
+        myData[6] = data[6] 
          
     return (str(myData[0]), str(myData[1]), str(myData[2]), str(myData[3]), str(myData[4]), str(myData[5]), str(myData[6]))
 
@@ -979,7 +979,7 @@ def read_data(chanelID, ReadAPIkey):
 
 def kirim():
     while True:
-        ldr, tombol1, tombol2, level, bersih, kotor, heat = getArduino()
+        ldr, tombol1, tombol2, led2, led2, mot1, mot2 = getArduino()
         temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 
         params = urllib.urlencode({'field1': temp, 'field2': ldr,'field3': tombol1, 'key':key }) 
         headers = {"Content-typZZe": "application/x-www-form-urlencoded","Accept": "text/plain"}
@@ -987,7 +987,7 @@ def kirim():
         try:
             conn.request("POST", "/update", params, headers)
             response = conn.getresponse()
-            print temp, ldr, tombol1, tombol2, level, bersih, kotor, heat
+            print ldr, tombol1, tombol2, led2, led2, mot1, mot2
             print response.status, response.reason
             data = response.read()
             conn.close()
