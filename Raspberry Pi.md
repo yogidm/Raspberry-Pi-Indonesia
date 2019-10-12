@@ -883,27 +883,131 @@ Dari tautan data `json` kita, kita dapat langsung mengambil data tersebut dengan
 ## Langkah Kerja
 
 1. Siapkan alat dan bahan yang dibutuhkan
-2. Hubungkan rangkaian seperti gambar beirkut ini
+2. Hubungkan rangkaian seperti gambar berikut ini
+<img src="GambarPi/rangkaian-iot.png">
 
+3. Tuliskan kode Arduino berikut ini
 
-3. kode berikut
+```c
+int data;
+int val = 0;
+byte python               = 0;
+unsigned long preInterval = 0;
+
+void setup()
+{ Serial.begin(1000000);
+  while (!Serial) {}
+  pinMode(10, OUTPUT);
+  pinMode(A2, INPUT);
+  digitalWrite(10, HIGH);
+
+}
+
+void loop()
+{
+  val = digitalRead(A2);
+  data = analogRead(A0);
+
+  if (Serial.available() > 0)
+  {
+    python = Serial.read();
+    if (python == 'k') {
+      digitalWrite(10, LOW);
+    }
+    if (python == 'K') {
+      digitalWrite(10, HIGH);
+    }
+  }
+
+  if (millis() - preInterval >= 1000) {
+    preInterval = millis();
+    Serial.write('a');
+    Serial.println();
+    Serial.print(float(data));
+    Serial.print(" : ");
+    Serial.print(val);
+    Serial.print(" : ");
+    Serial.print(5);
+    Serial.print(" : ");
+    Serial.print(7);
+    Serial.print(" : ");
+    Serial.print(true);
+    Serial.print(" : ");
+    Serial.print(false);
+    Serial.print(" : ");
+    Serial.print(true);
+    Serial.println();
+  }
+}
+```
+4. Tuliskan kode Pyhton berikut ini
 
 ```python
-import RPi.GPIO as GPIO
+import serial
+import time
+import httplib, urllib
+import urllib2, json
+key = "NA7FI6JPT3BVUZG8"  # Masukkan API Keys kalian disini 
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(23, GPIO.OUT)
-GPIO.setup(22, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+arduino=serial.Serial('/dev/ttyACM0',1000000)
 
-while True:
-    tombol = GPIO.input(22)
-    if tombol == False:
-        GPIO.output(23, GPIO.HIGH)
-        print ("Tertekan")
-    else:
-        GPIO.output(23, GPIO.LOW)
-        print ("Bebas")
+def getArduino():
+    data = 0
+    myData = [0, 0, 0, 0, 0, 0, 0]
+    a = arduino.readline()
+    if a[0] is 'a':
+        data = arduino.readline().split(' : ')
+
+        myData[0] = data[0] #salinitas
+        myData[1] = data[1] #ph air
+        myData[2] = data[2] #level_air
+        myData[3] = data[3] #status bersih
+        myData[4] = data[4] #status kotor
+        myData[5] = data[5] #status heater
+        myData[6] = data[6] #temperature
+         
+    return (str(myData[0]), str(myData[1]), str(myData[2]), str(myData[3]), str(myData[4]), str(myData[5]), str(myData[6]))
+
+def read_data(chanelID, ReadAPIkey):
+    conn = urllib2.urlopen('http://api.thingspeak.com/channels/%s/feeds/last.json?api_key=%s' %(chanelID, ReadAPIkey))
+    response = conn.read()
+    data = json.loads(response)
+    print data['field3']
+    conn.close()
+
+    return data['field3']
+
+def kirim():
+    while True:
+        ldr, tombol1, tombol2, level, bersih, kotor, heat = getArduino()
+        temp = int(open('/sys/class/thermal/thermal_zone0/temp').read()) / 1e3 
+        params = urllib.urlencode({'field1': temp, 'field2': ldr,'field3': tombol1, 'key':key }) 
+        headers = {"Content-typZZe": "application/x-www-form-urlencoded","Accept": "text/plain"}
+        conn = httplib.HTTPConnection("api.thingspeak.com:80")
+        try:
+            conn.request("POST", "/update", params, headers)
+            response = conn.getresponse()
+            print temp, ldr, tombol1, tombol2, level, bersih, kotor, heat
+            print response.status, response.reason
+            data = response.read()
+            conn.close()
+        except:
+            print "connection failed"
+        break
+
+if __name__ == "__main__":
+        while True:
+                kirim()
+                statusTombol = read_data("763089", "L433B7DEBDPAXAOM") #read airBersih
+                if statusTombol == '0':
+                    arduino.write('k')
+                if statusTombol == '1':
+                    arduino.write('K')
+
 ```
+
+5. Jalankan program Python
+
 
 # 10. Menggunakan Kamera
 
@@ -955,9 +1059,266 @@ raspistill -o Desktop/image.jpg
 
 setelah proses berjalan, akan muncul jendela hasil tangkapan kamera selama 5 detik, lalu melakukan penyimpanan hasil tangkapan kamera pada desktop Rasbian. 
 
+- Untuk melakkukan penyimpanan video, dapat dilakukan dengan perintah berikut ini pada terminal Anda
+
+```
+raspivid -o Desktop/video.h264
+```
+Setelah beberapa detik perekaman video, video dapat ditemukan pada Dekstop Anda. Double klik untuk memutar video yang direkam. 
 
 
-# 11. Game Menggunakan PyGame
+## 10.1 Mengakses kamera dengan Python
+
+Untuk mengakses kamera dengan Python, dapat mengikuti langkah berikut ini:
+
+- Buat sebuah dokmen Python baru
+- Tuliskan kode berikut ini:
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+
+camera.start_preview()
+sleep(5)
+camera.stop_preview()
+```
+
+- Jalankan program tersebut.  Jika berhasil,  program akan menampilkan hasil tangkapan kamera selama 5 detik, dan menyimpannya pada direktori dokumen Python disimpan.
+
+- Jika Anda ingin melakukan putaran pada capture kamera, dapat menggunakan kode berikut `camera.rotation = 180` setelah kode `camera = PiCamera()` pada dokumen sebelumnya. Rotasi dapat digunakan derajat `0`, `90`, maupun `270`. Untuk mereset putaran rotasi, set rotasinya pada derajat `0`. 
+
+- Agar dapat menggunakan kanal `alpha` atau efek transparant, dapat menambahkan isian `alpha=200` seperti pada kode berikut `camera.start_preview(alpha=200)`.
+
+- Untuk menyimpan sebuah gambar, dapat menggunakan kode berikut ini
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+camera.start_preview()
+sleep(5)
+camera.capture('/home/pi/Desktop/image.jpg')
+camera.stop_preview()
+```
+
+- Untuk dapat menyimpan 5 gambar dalam interval 5 detik,  dapat menggunakan kode berikut:
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+camera.start_preview()
+for i in range(5):
+    sleep(5)
+    camera.capture('/home/pi/Desktop/image%s.jpg' % i)
+camera.stop_preview()
+```
+
+- Untuk dapat merekam video menggunakan kode Python, dapat menggunakan kode berikut
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+camera.start_preview()
+camera.start_recording('/home/pi/Desktop/video.h264')
+sleep(5)
+camera.stop_recording()
+camera.stop_preview()
+```
+
+## 10.2 Mengubah seting kamera
+
+Kita juga dapat mengubah seting kamera yang kita gunakan, seperti berapa besar resolusi kamera yang akan kita gunakan, ataupun memberikan tulisan label pada gambarnya bahkan memberikan efek pada gambarnya. 
+
+- Untuk merubah resolusi tangkapan kamera dapat menggunakan kode berikut:
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+
+camera.resolution = (2592, 1944)
+camera.framerate = 15
+camera.start_preview()
+sleep(5)
+camera.capture('/home/pi/Desktop/max.jpg')
+camera.stop_preview()
+```
+
+- Untuk menambahkan tulisan pada gambar yang ditangkap, dapat menggunakan kode berikut
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+
+camera.start_preview()
+camera.annotate_text_size = 50
+camera.annotate_text = "Foto Saya..."
+sleep(5)
+camera.capture('/home/pi/Desktop/text.jpg')
+camera.stop_preview()
+```
+
+- Untuk merubah warna tulisan pada citra dapat menggunakan kode berikut:
+
+```python
+from picamera import PiCamera, Color
+from time import sleep
+
+
+camera = PiCamera()
+camera.start_preview()
+camera.annotate_background = Color('blue')
+camera.annotate_foreground = Color('yellow')
+camera.annotate_text = " Hello world "
+sleep(5)
+camera.stop_preview()
+```
+
+- Untuk mengubah Brigtness citra
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+camera.start_preview()
+camera.brightness = 70
+sleep(5)
+camera.capture('/home/pi/Desktop/bright.jpg')
+camera.stop_preview()
+```
+
+Bisa juga menggunakan ini
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+camera.start_preview()
+for i in range(100):
+    camera.annotate_text = "Brightness: %s" % i
+    camera.brightness = i
+    sleep(0.1)
+camera.stop_preview()
+
+```
+
+- Untuk mengubah Contrass
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+camera.start_preview()
+for i in range(100):
+    camera.annotate_text = "Contrast: %s" % i
+    camera.contrast = i
+    sleep(0.1)
+camera.stop_preview()
+```
+
+## 10.3 Memberikan efek pada citra
+
+Ada beberapa efek yang dapat diterapkan pada citra, diantaranya
+
+
+- none
+- negative
+- solarize
+- sketch
+- denoise
+- emboss
+- oilpaint
+- hatch
+- gpen
+- pastel
+- watercolor
+- film
+- blur
+- saturation
+- colorswap
+- washedout
+- posterise
+- colorpoint
+- colorbalance
+- cartoon
+- deinterlace1
+- deinterlace2
+
+Untuk dapat menggunakannya, gunakan kode berikut
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+camera.start_preview()
+camera.image_effect = 'colorswap'
+sleep(5)
+camera.capture('/home/pi/Desktop/colorswap.jpg')
+camera.stop_preview()
+```
+
+Atau kode berikut ini
+
+```python
+from picamera import PiCamera
+from time import sleep
+
+camera = PiCamera()
+camera.start_preview()
+for effect in camera.IMAGE_EFFECTS:
+    camera.image_effect = effect
+    camera.annotate_text = "Effect: %s" % effect
+    sleep(5)
+camera.stop_preview()
+```
+
+
+
+# 11. Menjalankan program saat pertama booting
+
+Raspberry Pi dapat menjalankan program saat pertama kali booting. Perintah tersebut dapat menggunakan `rc.local` yang terdapat pada folder `/etc`. Untuk mengaktifkannya, dapat meenggunakan langkah berikut ini.
+
+- Buka terminal baru pada Raspberry Pi Anda.
+- Ketikkan kode berikut pada terminal `sudo leafpad /etc/rc.local` seperti gambar berikut ini.
+<img src="GambarPi/edit-autorun.png">
+
+- Akan muncul editor text seperti gambar berikut
+<img src="GambarPi/rc-local-editor.png">
+
+- Scroll kebawah sampai menemukan kode `exit 0`. 
+
+- Tuliskan kode berikut diatas tulisan `exit 0` pada editor Anda.
+
+```
+python /home/pi/blink.py &
+```
+
+- Untuk direktory `/home/pi/blink.py` merupakan lokasi dimana dokumen Python Anda tersimpan dan akan dijalankan secara otomatis saat Raspberry Pi pertama kali menyala. 
+
+- Jangan lupa kode `&` harus tetep berada setelah kode direktori dokumen python Anda. 
+
+<img src="GambarPi/gambar-autorrun.png">
+
+- Simpan dan keluar dari editor.
+- Coba  restart Raspberry Pi Anda. 
+
+
+
+# 12. Game Menggunakan PyGame
 
 Grapchical User Interface (GUI) merupakan suatu tampilan pada layar komputer yang dapat terhubung dengan perangkat keras di luar komputer tersebut (dengan asumsi, Raspberry Pi merupakan komputer dengan bentuk mini). Dari interaksi yang tercipta antara pengguna dengan komputer, kita bisa membuat sebuah kegiatan yang interaktif. Semisal membuat sebuah permainan, data logger, ataupun pemantau sistem. Dari GUI ini, pengguna dapat dengan mudah memantau, merekam, dan mengendalikan sebuah sistem bahkan dari jarak jauh. Nah, pada bab ini,  kita akan melakukan beberapa kegiatan diataranya, mengenal pembuatan GUI berbasis Python dalam bentuk game (permainan) dan data logger beserta ploting datanya. 
 
